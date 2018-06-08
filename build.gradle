@@ -1,0 +1,90 @@
+group 'learnerbot'
+version '1.0-SNAPSHOT'
+
+def junitVersion = '4.11'
+def mockitoVersion = '1.9.5'
+def assertjVersion = '2.0.0'
+def log4jVersion = '2.5'
+def springBootVersion = '2.0.1.RELEASE'
+def h2Version = '1.4.197'
+def thymeleafSpringSecurityVersion = '3.0.2.RELEASE'
+
+def springBootUserName = 'user'
+def springBootPassword = '1234'
+def serverPort = '11001'
+def debugPort = '11005'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compile.exclude module: "spring-boot-starter-logging"
+}
+
+dependencies {
+    testCompile ("junit:junit:$junitVersion")
+    testCompile ("org.mockito:mockito-core:$mockitoVersion")
+    testCompile ("org.assertj:assertj-core:$assertjVersion")
+    testCompile ("org.assertj:assertj-core:$assertjVersion")
+    testCompile ("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    compile ("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    compile ("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+    compile ("org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion")
+    compile ("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+    compile ("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
+    compile ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
+    compile ("org.springframework.boot:spring-boot-devtools:$springBootVersion")
+    compile ("org.thymeleaf.extras:thymeleaf-extras-springsecurity4:${thymeleafSpringSecurityVersion}")
+    compile ("com.h2database:h2:$h2Version")
+}
+
+jar {
+    baseName = "learnerbot-hello-spring"
+    version =  "1.0.0"
+    manifest {
+        attributes("Main-Class": "hu.learnerbot.hellospring.Main",
+                "Manifest-Version": version,
+                "Created-By": "LearnerBot")
+    }
+}
+
+test {
+    reports {
+        html.enabled = false
+        junitXml.enabled = true
+    }
+
+    testLogging {
+        events "PASSED", "STARTED", "FAILED", "SKIPPED"
+        exceptionFormat = "full"
+    }
+}
+
+bootRun {
+    sourceResources sourceSets.main
+    jvmArgs = [
+        "-Dserver.port=$serverPort",
+        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$debugPort",
+        "-Dsecurity.user.name=$springBootUserName",
+        "-Dsecurity.user.password=$springBootPassword"
+    ]
+}

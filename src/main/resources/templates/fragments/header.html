@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:fragment="head">
+    <title th:text="${(pageTitle == '') ? 'Hello Spring Boot' : 'Hello Spring Boot - ' + pageTitle}">LearnerBot</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div th:fragment="header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#homepage-navbar" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Hello Spring Boot</a>
+                </div>
+                <div class="collapse navbar-collapse" id="homepage-navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/contact"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
+                        <li sec:authorize="isAuthenticated()"><a href="/user/welcome"><span class="glyphicon glyphicon-gift"></span> Welcome</a></li>
+                        <li sec:authorize="isAuthenticated()" class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span sec:authentication="name"></span> <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li sec:authorize="hasAnyRole('USER', 'ADMIN')"><a href="/user/dashboard"><span class="glyphicon glyphicon-pawn"></span> User Dashboard</a></li>
+                                <li sec:authorize="hasRole('ADMIN')"><a href="/admin/dashboard"><span class="glyphicon glyphicon-king"></span> Admin Dashboard</a></li>
+                                <li><a href="/user/edit"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
+                                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                            </ul>
+                        </li>
+                        <li sec:authorize="isAnonymous()"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>
