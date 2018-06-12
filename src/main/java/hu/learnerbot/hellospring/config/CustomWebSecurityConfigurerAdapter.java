@@ -23,7 +23,6 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
                 .antMatchers("/logout").authenticated()
                 .antMatchers("/welcome").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/error").permitAll()
                 .antMatchers("/login").permitAll().and()

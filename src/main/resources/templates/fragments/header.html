@@ -31,7 +31,6 @@
                         <li sec:authorize="isAuthenticated()" class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span sec:authentication="name"></span> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li sec:authorize="hasAnyRole('USER', 'ADMIN')"><a href="/user/dashboard"><span class="glyphicon glyphicon-pawn"></span> User Dashboard</a></li>
                                 <li sec:authorize="hasRole('ADMIN')"><a href="/admin/dashboard"><span class="glyphicon glyphicon-king"></span> Admin Dashboard</a></li>
                                 <li><a href="/user/edit"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
                                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
