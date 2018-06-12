@@ -25,12 +25,12 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/error").permitAll()
-                .antMatchers("/login").permitAll().and()
+                .antMatchers("/login").anonymous().and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/user/welcome").and()
                 .logout().logoutSuccessUrl("/login");
 
-        //NOTE: the following two lines of code are only required to get the h2-console working
-        http.csrf().ignoringAntMatchers("/h2-console/**");
+        //NOTE: the following two lines of code are only required to get the h2-console working and actuator shutdown
+        http.csrf().ignoringAntMatchers("/h2-console/**").ignoringAntMatchers("/actuator/shutdown");
         http.headers().frameOptions().disable();
     }
 
