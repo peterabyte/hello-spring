@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @Entity
-public class User implements UserDetails
-{
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,66 +19,55 @@ public class User implements UserDetails
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User()
-    {
-        this("", "", Role.ROLE_GUEST);
+    public User() {
+        this("", "", "", Role.ROLE_GUEST);
     }
 
-    public User(String name, String password, Role role)
-    {
+    public User(String name, String email, String password, Role role) {
         this.name = name;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
     @Override
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public Role getRole()
-    {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Role role)
-    {
+    public void setRole(Role role) {
         this.role = role;
     }
 

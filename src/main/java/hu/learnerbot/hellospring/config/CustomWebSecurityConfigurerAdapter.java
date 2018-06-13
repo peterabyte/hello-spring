@@ -11,20 +11,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
-{
+public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
+    protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/logout").authenticated()
                 .antMatchers("/welcome").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/error").permitAll()
+                .antMatchers("/register").anonymous()
                 .antMatchers("/login").anonymous().and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/user/welcome").and()
                 .logout().logoutSuccessUrl("/login");
@@ -35,15 +34,14 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception
-    {
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }
