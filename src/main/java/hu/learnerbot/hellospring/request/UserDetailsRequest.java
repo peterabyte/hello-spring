@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class UserRequest
+public class UserDetailsRequest
 {
     @NotNull
     @Size(min = 3)
@@ -13,11 +13,11 @@ public class UserRequest
     @Pattern(regexp = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
     private String email;
 
-    public UserRequest() {
+    public UserDetailsRequest() {
         this("", "");
     }
 
-    public UserRequest(String name, String email) {
+    public UserDetailsRequest(String name, String email) {
         this.name = name;
         this.email = email;
     }

@@ -3,7 +3,7 @@ package hu.learnerbot.hellospring.controller;
 import hu.learnerbot.hellospring.model.User;
 import hu.learnerbot.hellospring.repository.UserRepository;
 import hu.learnerbot.hellospring.request.PasswordRequest;
-import hu.learnerbot.hellospring.request.UserRequest;
+import hu.learnerbot.hellospring.request.UserDetailsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,13 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/user/")
@@ -43,12 +40,12 @@ public class UserController
     {
         ModelAndView modelAndView = new ModelAndView(VIEW_PATH_EDIT);
         User user = (User)authentication.getPrincipal();
-        modelAndView.addObject("user", new UserRequest(user.getName(), user.getEmail()));
+        modelAndView.addObject("user", new UserDetailsRequest(user.getName(), user.getEmail()));
         return modelAndView;
     }
 
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ModelAndView submitEdit(@Valid @ModelAttribute UserRequest user, BindingResult bindingResult, Authentication authentication)
+    public ModelAndView submitEdit(@Valid @ModelAttribute UserDetailsRequest user, BindingResult bindingResult, Authentication authentication)
     {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView(VIEW_PATH_EDIT, bindingResult.getModel());
