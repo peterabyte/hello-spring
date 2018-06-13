@@ -6,5 +6,21 @@
     <body>
         <div th:replace="fragments/header :: header"></div>
         <h1>Admin</h1>
+        <table class="table table-responsive table-striped table-condensed">
+            <thead class="">
+            <tr>
+                <th>name</th>
+                <th>email</th>
+                <th>roles</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td data-title="name" th:text="${user.name}"></td>
+                <td data-title="name" th:text="${user.email}"></td>
+                <td data-title="name" th:text="${user.authorities}"></td>
+            </tr>
+            </tbody>
+        </table>
     </body>
 </html>
