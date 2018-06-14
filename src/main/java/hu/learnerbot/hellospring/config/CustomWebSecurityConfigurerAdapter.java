@@ -20,12 +20,14 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
         http.authorizeRequests()
                 .antMatchers("/logout").authenticated()
                 .antMatchers("/welcome").authenticated()
+                .antMatchers("/topics/**").authenticated()
+                .antMatchers("/user/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/error").permitAll()
                 .antMatchers("/register").anonymous()
                 .antMatchers("/login").anonymous().and()
-                .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/user/welcome").and()
+                .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/topics").and()
                 .logout().logoutSuccessUrl("/login");
 
         //NOTE: the following two lines of code are only required to get the h2-console working and actuator shutdown

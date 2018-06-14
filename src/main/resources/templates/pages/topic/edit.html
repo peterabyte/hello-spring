@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head(pageTitle='Register')">
+<head th:replace="fragments/header :: head(pageTitle='Topic')">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-offset-3 col-md-6">
-            <h1>Register</h1>
-            <form action="/register" th:object="${userRegisterRequest}" method="post" role="form">
+            <h1>Edit topic</h1>
+            <form action="/topics/edit" th:object="${topic}" method="post" role="form">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
                     <label class="control-label" th:for="name" th:text="|Name:|"></label>
                     <input type="text" th:field="*{name}" class="form-control"/>
                     <span th:if="${#fields.hasErrors('name')}" class="text-danger small"><strong>* Name must be longer than 3 characters.</strong></span>
                 </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
-                    <label class="control-label" th:for="email" th:text="|Email:|"></label>
-                    <input type="text" th:field="*{email}" class="form-control"/>
-                    <span th:if="${#fields.hasErrors('email')}" class="text-danger small"><strong>* E-mail should be a valid e-mail format.</strong></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" th:for="password" th:text="|Password:|"></label>
-                    <input type="password" th:field="*{password}" class="form-control"/>
-                    <span th:if="${#fields.hasErrors('password')}" class="text-danger small"><strong>* Password must be longer than 3 characters.</strong></span>
+                <div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+                    <label class="control-label" th:for="description" th:text="|Description:|"></label>
+                    <input type="text" th:field="*{description}" class="form-control"/>
+                    <span th:if="${#fields.hasErrors('description')}" class="text-danger small"><strong>* Description should be longer than 3 characters.</strong></span>
                 </div>
                 <div class="btn-group" role="group">
                     <button type="submit" class="btn btn-primary">Submit</button>
