@@ -12,12 +12,14 @@
     <tr>
         <th>name</th>
         <th>description</th>
+        <th>updated at</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="topic : ${topics}">
         <td data-title="name"><a th:href="|/topics/${topic.slug}|" th:text="${topic.name}"></a></td>
         <td data-title="description" th:text="${topic.description}"></td>
+        <td data-title="updatedAt" th:text="${topic.updatedAt}"></td>
     </tr>
     </tbody>
 </table>

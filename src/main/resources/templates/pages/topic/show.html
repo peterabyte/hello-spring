@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head(pageTitle='Topic')">
+<head th:replace="fragments/header :: head(pageTitle=${topic.name})">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<h1 th:text="|Topic: ${topic.name}|"></h1>
-<div class="lead bg-primary" th:text="${topic.description}"></div>
+<h1 th:text="${topic.name}"></h1>
+<div class="panel panel-primary">
+    <div class="panel-body" th:text="${topic.description}"></div>
+</div>
+<div th:each="comment : ${comments}" class="panel panel-default">
+    <div class="panel-heading">
+        <span th:text="${comment.user.name}"></span>
+        <span class="text-muted" th:text="${comment.createdAt}"></span>
+    </div>
+    <div class="panel-body" th:text="${comment.text}"></div>
+</div>
+<p>
+<div class="text-primary">Comment</div>
 <form th:action="|/topics/${topic.slug}/comment|" th:object="${comment}" method="post" role="form">
     <div class="form-group" th:classappend="${#fields.hasErrors('text')}? 'has-error'">
         <textarea rows="5" th:field="*{text}" class="form-control"/>
@@ -17,8 +28,6 @@
         <a class="btn btn-default" th:href="|/topics/${topic.slug}|">Cancel</a>
     </div>
 </form>
-<div th:each="comment : ${comments}">
-    <p th:text="${comment.text}"></p>
-</div>
+</p>
 </body>
 </html>

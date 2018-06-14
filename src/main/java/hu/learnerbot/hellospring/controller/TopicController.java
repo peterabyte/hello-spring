@@ -2,9 +2,11 @@ package hu.learnerbot.hellospring.controller;
 
 import hu.learnerbot.hellospring.model.Comment;
 import hu.learnerbot.hellospring.model.Topic;
+import hu.learnerbot.hellospring.model.User;
 import hu.learnerbot.hellospring.repository.CommentRepository;
 import hu.learnerbot.hellospring.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -76,16 +78,20 @@ public class TopicController {
     }
 
     @RequestMapping(value = "/{topicSlug}/comment", method = RequestMethod.POST)
-    public ModelAndView submitComment(@PathVariable(value = "topicSlug") String topicSlug, @Valid @ModelAttribute Comment comment, BindingResult bindingResult) {
+    public ModelAndView submitComment(@PathVariable(value = "topicSlug") String topicSlug, @Valid @ModelAttribute Comment comment, BindingResult bindingResult, Authentication authentication) {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView(VIEW_PATH_EDIT, bindingResult.getModel());
             return modelAndView;
         }
 
         try {
+            User user = (User) authentication.getPrincipal();
             Topic topic = topicRepository.findBySlug(topicSlug);
             comment.setTopic(topic);
+            comment.setUser(user);
             commentRepository.save(comment);
+            topic.touch();
+            topicRepository.save(topic);
             ModelAndView modelAndView = new ModelAndView(new RedirectView("/topics/" + topic.getSlug()));
             return modelAndView;
         } catch (Exception ex) {

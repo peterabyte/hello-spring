@@ -1,10 +1,12 @@
 package hu.learnerbot.hellospring.model;
 
 import hu.learnerbot.hellospring.listener.TopicListener;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,6 +27,10 @@ public class Topic {
     private String description;
     @OneToMany(mappedBy = "topic")
     private List<Comment> comments;
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
 
     public Topic() {
         this("", "", "");
@@ -66,5 +72,17 @@ public class Topic {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void touch() {
+        updatedAt = null;
     }
 }
