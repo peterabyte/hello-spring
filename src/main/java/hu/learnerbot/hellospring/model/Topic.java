@@ -5,6 +5,7 @@ import hu.learnerbot.hellospring.listener.TopicListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @EntityListeners({TopicListener.class})
@@ -22,6 +23,8 @@ public class Topic {
     @Size(min = 3)
     @Column(nullable = false)
     private String description;
+    @OneToMany(mappedBy = "topic")
+    private List<Comment> comments;
 
     public Topic() {
         this("", "", "");

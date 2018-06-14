@@ -1,6 +1,8 @@
 package hu.learnerbot.hellospring.controller;
 
+import hu.learnerbot.hellospring.model.Comment;
 import hu.learnerbot.hellospring.model.Topic;
+import hu.learnerbot.hellospring.repository.CommentRepository;
 import hu.learnerbot.hellospring.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,10 +25,12 @@ public class TopicController {
     private final String VIEW_PATH_SHOW = "pages/topic/show";
 
     private final TopicRepository topicRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
-    public TopicController(TopicRepository topicRepository) {
+    public TopicController(TopicRepository topicRepository, CommentRepository commentRepository) {
         this.topicRepository = topicRepository;
+        this.commentRepository = commentRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -64,7 +68,30 @@ public class TopicController {
     @RequestMapping(value = "/{topicSlug}", method = RequestMethod.GET)
     public ModelAndView show(@PathVariable(value = "topicSlug") String topicSlug) {
         ModelAndView modelAndView = new ModelAndView(VIEW_PATH_SHOW);
-        modelAndView.addObject("topic", topicRepository.findBySlug(topicSlug));
+        Topic topic = topicRepository.findBySlug(topicSlug);
+        modelAndView.addObject("topic", topic);
+        modelAndView.addObject("comments", commentRepository.findByTopicId(topic.getId()));
+        modelAndView.addObject("comment", new Comment());
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/{topicSlug}/comment", method = RequestMethod.POST)
+    public ModelAndView submitComment(@PathVariable(value = "topicSlug") String topicSlug, @Valid @ModelAttribute Comment comment, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView(VIEW_PATH_EDIT, bindingResult.getModel());
+            return modelAndView;
+        }
+
+        try {
+            Topic topic = topicRepository.findBySlug(topicSlug);
+            comment.setTopic(topic);
+            commentRepository.save(comment);
+            ModelAndView modelAndView = new ModelAndView(new RedirectView("/topics/" + topic.getSlug()));
+            return modelAndView;
+        } catch (Exception ex) {
+            ModelAndView modelAndView = new ModelAndView(new RedirectView("/topics"));
+            modelAndView.addObject("hasError", true);
+            return modelAndView;
+        }
     }
 }
