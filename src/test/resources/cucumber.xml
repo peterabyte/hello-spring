@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="hu.learnerbot.hellospring.test"/>
+
+    <context:property-placeholder/>
+
+    <bean id="systemEnvPropsForSelenium" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" value="#{@systemProperties}"/>
+        <property name="targetMethod" value="putAll"/>
+        <property name="arguments">
+            <map>
+                <entry key="webdriver.chrome.driver" value="${SELENIUM_CHROME_DRIVER}"/>
+                <entry key="webdriver.gecko.driver" value="${SELENIUM_GECKO_DRIVER}"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

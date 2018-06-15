@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/header :: head(pageTitle='Login')">
-    </head>
-    <body>
-        <div th:replace="fragments/header :: header"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-offset-3 col-md-6">
-                    <div class="panel panel-info panel-login center-block">
-                        <div class="panel-heading text-center"><h1>Login</h1></div>
-                        <div class="panel-body">
-                            <form th:action="@{/login}" method="post" role="form">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon glyphicon glyphicon-user input-glyphicon"></span>
-                                        <input class="form-control" type="text" id="username" name="username" autofocus="autofocus" /> <br />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon glyphicon glyphicon-lock input-glyphicon"></span>
-                                        <input class="form-control" type="password" id="password" name="password" /> <br />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-default btn-primary btn-block">Log in</button>
-                                </div>
-                            </form>
-                            <div th:if="${isLoginError?:false}" class="alert alert-danger alert-with-top-padding" role="alert"><strong>Wrong name or password!</strong></div>
-                            <div th:if="${isLogoutSuccess?:false}" class="alert alert-success alert-with-top-padding" role="alert">You have been logged out successfully.</div>
+<head th:replace="fragments/header :: head(pageTitle='Login')">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="panel panel-info panel-login center-block">
+                <div class="panel-heading text-center"><h1>Login</h1></div>
+                <div class="panel-body">
+                    <form th:action="@{/login}" method="post" role="form">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon glyphicon glyphicon-user input-glyphicon"></span>
+                                <input class="form-control" type="text" id="username" name="username"
+                                       autofocus="autofocus"/> <br/>
+                            </div>
                         </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon glyphicon glyphicon-lock input-glyphicon"></span>
+                                <input class="form-control" type="password" id="password" name="password"/> <br/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button id="login" type="submit" class="btn btn-default btn-primary btn-block">Log in
+                            </button>
+                        </div>
+                    </form>
+                    <div th:if="${isLoginError?:false}" id="loginError"
+                         class="alert alert-danger alert-with-top-padding" role="alert">
+                        <strong>Wrong name or password!</strong></div>
+                    <div th:if="${isLogoutSuccess?:false}" id="logoutSuccess"
+                         class="alert alert-success alert-with-top-padding"
+                         role="alert">You have been logged out successfully.
                     </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 </html>

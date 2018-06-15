@@ -9,6 +9,8 @@ def springBootVersion = '2.0.1.RELEASE'
 def h2Version = '1.4.197'
 def thymeleafSpringSecurityVersion = '3.0.2.RELEASE'
 def slugifyVersion = '2.2'
+def seleniumVersion = '3.12.0'
+def cucumberVersion = '3.0.2'
 
 def springBootUserName = 'user'
 def springBootPassword = '1234'
@@ -47,6 +49,11 @@ dependencies {
     testCompile("org.assertj:assertj-core:$assertjVersion")
     testCompile("org.assertj:assertj-core:$assertjVersion")
     testCompile("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    testCompile("org.seleniumhq.selenium:selenium-java:$seleniumVersion")
+    testCompile("io.cucumber:cucumber-junit:$cucumberVersion")
+    testCompile("io.cucumber:cucumber-java:$cucumberVersion")
+    testCompile("io.cucumber:cucumber-spring:$cucumberVersion")
+    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion")
@@ -78,6 +85,33 @@ test {
     testLogging {
         events "PASSED", "STARTED", "FAILED", "SKIPPED"
         exceptionFormat = "full"
+    }
+
+    exclude '**/*SmokeTestRunner*'
+}
+
+task smokeTest(type: Test) {
+    reports {
+        html.enabled = true
+        junitXml.enabled = true
+    }
+
+    testLogging {
+        events "PASSED", "STARTED", "FAILED", "SKIPPED"
+        exceptionFormat = "full"
+    }
+
+    include '**/*SmokeTestRunner*'
+
+    jvmArgs = []
+    project.getProperties().each { k, v ->
+        if (k ==~ /learnerbot\..*/) {
+            if (v != null && v != "") {
+                jvmArgs += ["-D$k=$v"]
+            } else {
+                jvmArgs += ["-D$k"]
+            }
+        }
     }
 }
 
