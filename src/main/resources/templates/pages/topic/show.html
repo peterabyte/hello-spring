@@ -9,7 +9,7 @@
 <div class="panel panel-primary">
     <div class="panel-body" th:text="${topic.description}"></div>
 </div>
-<div th:each="comment : ${comments}" class="panel panel-default">
+<div th:each="comment : ${comments}" class="panel panel-default comment-panel">
     <div class="panel-heading">
         <span th:text="${comment.user.name}"></span>
         <span class="text-muted" th:text="${comment.createdAt}"></span>
@@ -20,11 +20,11 @@
 <div class="text-primary">Comment</div>
 <form th:action="|/topics/${topic.slug}/comment|" th:object="${comment}" method="post" role="form">
     <div class="form-group" th:classappend="${#fields.hasErrors('text')}? 'has-error'">
-        <textarea rows="5" th:field="*{text}" class="form-control"/>
+        <textarea rows="5" id="comment" th:field="*{text}" class="form-control"/>
         <span th:if="${#fields.hasErrors('text')}" class="text-danger small"><strong>* Text must not be empty.</strong></span>
     </div>
     <div class="btn-group" role="group">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button id="submitComment" type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-default" th:href="|/topics/${topic.slug}|">Cancel</a>
     </div>
 </form>

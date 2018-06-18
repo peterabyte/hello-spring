@@ -19,6 +19,18 @@ public class SmokeTestConfig {
     @Value("${learnerbot.test.browser:firefox}")
     private String browser;
 
+    @Value("${learnerbot.test.user.name:user@example.com}")
+    private String testUserName;
+
+    @Value("${learnerbot.test.user.password:123456}")
+    private String testUserPassword;
+
+    @Value("${learnerbot.test.admin.name:admin@example.com}")
+    private String testAdminName;
+
+    @Value("${learnerbot.test.admin.password:123456}")
+    private String testAdminPassword;
+
     public SmokeTestConfig() {
     }
 
@@ -28,5 +40,21 @@ public class SmokeTestConfig {
 
     public String getBrowser() {
         return browser;
+    }
+
+    public String getTestUserName() {
+        return testUserName;
+    }
+
+    public String getTestUserPassword() {
+        return testUserPassword;
+    }
+
+    public String getTestAdminName() {
+        return testAdminName;
+    }
+
+    public String getTestAdminPassword() {
+        return testAdminPassword;
     }
 }

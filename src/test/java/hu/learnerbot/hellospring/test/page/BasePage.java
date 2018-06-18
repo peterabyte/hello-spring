@@ -7,7 +7,7 @@ public abstract class BasePage {
     protected final WebDriverService webDriverService;
     protected final SmokeTestConfig smokeTestConfig;
 
-    protected BasePage(WebDriverService webDriverService, SmokeTestConfig smokeTestConfig) {
+    public BasePage(WebDriverService webDriverService, SmokeTestConfig smokeTestConfig) {
         this.webDriverService = webDriverService;
         this.smokeTestConfig = smokeTestConfig;
     }
