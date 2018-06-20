@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 @PropertySource({
         "classpath:common.properties",
@@ -31,6 +33,12 @@ public class SmokeTestConfig {
     @Value("${learnerbot.test.admin.password:123456}")
     private String testAdminPassword;
 
+    @Value("${learnerbot.test.selenium.gecko.driver}")
+    private String seleniumGeckoDriver;
+
+    @Value("${learnerbot.test.selenium.chrome.driver}")
+    private String seleniumChromeDriver;
+
     public SmokeTestConfig() {
     }
 
@@ -56,5 +64,11 @@ public class SmokeTestConfig {
 
     public String getTestAdminPassword() {
         return testAdminPassword;
+    }
+
+    @PostConstruct
+    public void setSystemProperties() {
+        System.setProperty("webdriver.chrome.driver", seleniumChromeDriver);
+        System.setProperty("webdriver.gecko.driver", seleniumGeckoDriver);
     }
 }

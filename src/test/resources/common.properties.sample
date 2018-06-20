@@ -2,3 +2,5 @@ learnerbot.test.user.name:user@example.com
 learnerbot.test.user.password:123456
 learnerbot.test.admin.name:admin@example.com
 learnerbot.test.admin.password:123456
+learnerbot.test.selenium.gecko.driver=<path to gecko driver>
+learnerbot.test.selenium.chrome.driver=<path to chrome driver>

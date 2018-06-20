@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a simple web application based on *Spring Boot*. It showcases features such as *Spring Boot Security*, *Thymeleaf*, *H2 Database*.
+This is a simple web application based on *Spring Boot*. It showcases features such as *Spring Boot Web*, *Spring Boot Data JPA*, *Spring Boot Mail*, *Spring Boot Security*, *Thymeleaf*, *H2 Database*, *Selenium*, *Cucumber*.
 
 ## Dependencies
 
@@ -15,6 +15,8 @@ This is a simple web application based on *Spring Boot*. It showcases features s
 * *Data JPA*: Spring Boot Data JPA with Hibernate package to store and retrieve data in a relational database. 
 
 * *Security*: If Spring Security is on the classpath, the Spring Boot automatically secures all HTTP endpoints with "basic" authentication. But you can further customize the security settings.
+
+* *Mail*: Spring Boot Mail package to send emails.
 
 * *Actuator*: Spring Boot Actuator includes a number of additional features to help you monitor and manage your application when it’s pushed to production.
 
@@ -62,11 +64,13 @@ The following software should be installed on your computer.
 
 * Chrome and Chrome Driver
 
-The following environment variables must be set to start the smoke test. Note that the variables must be set at least to an empty string. 
+To be able to start the application you need to setup your own `src/main/resources/application.properties` file based on the `src/main/resources/application.properties.sample` file.
 
-* SELENIUM_GECKO_DRIVER: The path to the WebDriver binary for the Firefox browser (containing the name of the binary itself).
+To be able to start the smoke test you need to setup your own `src/test/resources/common.properties` file based on the `src/test/resources/common.properties.sample` file. Make sure that you specify the paths to the selenium drivers.
+
+* `learnerbot.test.selenium.gecko.driver`: The path to the WebDriver binary for the Firefox browser (containing the name of the binary itself).
     
-* SELENIUM_CHROME_DRIVER: The path to the WebDriver binary for the Chrome browser (containing the name of the binary itself).
+* `learnerbot.test.selenium.chrome.driver`: The path to the WebDriver binary for the Chrome browser (containing the name of the binary itself).
 
 ### Start and Test
 
@@ -76,7 +80,11 @@ If you made some changes to the HTML or CSS files then you don't need to restart
 
 To run the Selenium tests just run the command `gradle --daemon smokeTest`. The default browser used for testing is Firefox. If you would like to switch to Chrome then execute the command `gradle --daemon smokeTest -Plearnerbot.test.browser=chrome`.
 
-### H2 Console
+### H2 Database
+
+The application uses an in-memory H2 Database. 
+
+#### H2 Console
 
 You can use the `/h2-console` url to connect to the H2 database used by the web application. You should use the following data to log in.
 
@@ -89,6 +97,17 @@ You can use the `/h2-console` url to connect to the H2 database used by the web 
 * Password is empty.
 
 Note that to have this url working I had to make a slight modification in the `src/main/java/hu/learnerbot/hellospring/config/CustomWebSecurityConfigurerAdapter.java` file.
+
+#### Preloaded data
+
+With the help of the `src/main/resources/data.sql` there's preloaded data.
+
+The following users are already in the database.
+
+| user name  | email             | password (hashed) | role  |
+| ---------- | ----------------- | ----------------- | ----- |
+| Test Admin | admin@example.com | 123456            | ADMIN |
+| Test User  | user@example.com  | 123456            | USER  |
 
 ### Web application shutdown
 
@@ -106,4 +125,4 @@ This might be because the current installed version of Firefox is not supported 
 
 #### Chrome does not load
 
-This might be because the environment variable SELENIUM_CHROME_DRIVER is not set properly.
+This might be because the path to the driver is not set properly.
