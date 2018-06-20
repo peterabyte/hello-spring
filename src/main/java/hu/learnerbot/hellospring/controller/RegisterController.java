@@ -4,6 +4,7 @@ import hu.learnerbot.hellospring.model.Role;
 import hu.learnerbot.hellospring.model.User;
 import hu.learnerbot.hellospring.repository.UserRepository;
 import hu.learnerbot.hellospring.request.UserRegisterRequest;
+import hu.learnerbot.hellospring.service.SimpleEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,11 +23,13 @@ public class RegisterController {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SimpleEmailService emailService;
 
     @Autowired
-    public RegisterController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public RegisterController(UserRepository userRepository, PasswordEncoder passwordEncoder, SimpleEmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @RequestMapping(value = "register", method = RequestMethod.GET)
@@ -51,6 +54,7 @@ public class RegisterController {
                     passwordEncoder.encode(userRegisterRequest.getPassword()),
                     Role.ROLE_USER);
             userRepository.save(user);
+            emailService.sendSimpleMail(user.getEmail(), "Welcome", "Hello Spring Boot!");
         } catch (Exception ex) {
             modelAndView.addObject("hasError", true);
         }
