@@ -1,5 +1,13 @@
-group 'learnerbot'
-version '1.0-SNAPSHOT'
+plugins {
+    id 'org.springframework.boot' version '2.1.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+}
+
+group 'com.peterabyte'
+version '1.0.0-SNAPSHOT'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 def junitVersion = '4.11'
 def mockitoVersion = '1.9.5'
@@ -17,64 +25,46 @@ def springBootPassword = '1234'
 def serverPort = '11001'
 def debugPort = '11005'
 
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
-    }
-}
-
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 repositories {
     mavenCentral()
 }
 
 configurations {
-    compile.exclude module: "spring-boot-starter-logging"
+    implementation {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
 }
 
 dependencies {
-    testCompile("junit:junit:$junitVersion")
-    testCompile("org.mockito:mockito-core:$mockitoVersion")
-    testCompile("org.assertj:assertj-core:$assertjVersion")
-    testCompile("org.assertj:assertj-core:$assertjVersion")
-    testCompile("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    testCompile("org.seleniumhq.selenium:selenium-java:$seleniumVersion")
-    testCompile("io.cucumber:cucumber-junit:$cucumberVersion")
-    testCompile("io.cucumber:cucumber-java:$cucumberVersion")
-    testCompile("io.cucumber:cucumber-spring:$cucumberVersion")
-    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-starter-mail:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-devtools:$springBootVersion")
-    compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity4:${thymeleafSpringSecurityVersion}")
-    compile("com.h2database:h2:$h2Version")
-    compile("com.github.slugify:slugify:$slugifyVersion")
-}
-
-jar {
-    baseName = "learnerbot-hello-spring"
-    version = "1.0.0"
-    manifest {
-        attributes("Main-Class": "hu.learnerbot.hellospring.Main",
-                "Manifest-Version": version,
-                "Created-By": "LearnerBot")
-    }
+    testImplementation("junit:junit:$junitVersion")
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    testImplementation("org.assertj:assertj-core:$assertjVersion")
+    testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumVersion")
+    testImplementation("io.cucumber:cucumber-junit:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-java:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-spring:$cucumberVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-mail:$springBootVersion")
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity4:${thymeleafSpringSecurityVersion}")
+    implementation("com.github.slugify:slugify:$slugifyVersion")
+    implementation("com.github.slugify:slugify:$slugifyVersion")
+    implementation("javax.xml.bind:jaxb-api:2.3.1")
+    runtimeOnly("com.sun.xml.bind:jaxb-core:2.3.0.1")
+    runtimeOnly("com.sun.xml.bind:jaxb-impl:2.3.0.1")
+    runtimeOnly("javax.activation:activation:1.1.1")
+    runtimeOnly("com.h2database:h2:$h2Version")
+    developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
 }
 
 test {
@@ -91,7 +81,7 @@ test {
     exclude '**/*SmokeTestRunner*'
 }
 
-task smokeTest(type: Test) {
+task uiTest(type: Test) {
     reports {
         html.enabled = true
         junitXml.enabled = true
@@ -103,17 +93,6 @@ task smokeTest(type: Test) {
     }
 
     include '**/*SmokeTestRunner*'
-
-    jvmArgs = []
-    project.getProperties().each { k, v ->
-        if (k ==~ /learnerbot\..*/) {
-            if (v != null && v != "") {
-                jvmArgs += ["-D$k=$v"]
-            } else {
-                jvmArgs += ["-D$k"]
-            }
-        }
-    }
 }
 
 bootRun {
