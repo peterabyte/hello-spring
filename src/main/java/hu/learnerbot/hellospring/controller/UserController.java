@@ -52,7 +52,7 @@ public class UserController
             return modelAndView;
         }
 
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("/user/welcome"));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("/"));
         try {
             User userDetails = (User)authentication.getPrincipal();
             userDetails.setName(user.getName());
@@ -80,7 +80,7 @@ public class UserController
             return modelAndView;
         }
 
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("/user/welcome"));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("/"));
         try {
             User userDetails = (User)authentication.getPrincipal();
             userDetails.setPassword(passwordEncoder.encode(passwordRequest.getPassword()));

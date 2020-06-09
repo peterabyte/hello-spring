@@ -3,8 +3,6 @@ management.endpoints.web.exposure.include=info,health,status,mappings,shutdown
 
 spring.h2.console.enabled=true
 
-learnerbot.contact.link=https://github.com/learnerbot/hello-spring
-
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
 spring.mail.username=<login user to smtp server>

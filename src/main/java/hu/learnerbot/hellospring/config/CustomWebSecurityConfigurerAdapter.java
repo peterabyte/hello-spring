@@ -19,7 +19,6 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/logout").authenticated()
-                .antMatchers("/welcome").authenticated()
                 .antMatchers("/topics/**").authenticated()
                 .antMatchers("/user/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")

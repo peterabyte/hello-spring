@@ -82,6 +82,14 @@ public class Topic {
         this.updatedAt = updatedAt;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public void touch() {
         updatedAt = null;
     }
