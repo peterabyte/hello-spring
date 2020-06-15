@@ -98,7 +98,7 @@ You can use the `/h2-console` url to connect to the H2 database used by the web 
 
 * Password is empty.
 
-Note that to have this url working I had to make a slight modification in the `src/main/java/hu/learnerbot/hellospring/config/CustomWebSecurityConfigurerAdapter.java` file.
+Note that to have this url working I had to make a slight modification in the `src/main/java/com/peterabyte/hellospring/config/CustomWebSecurityConfigurerAdapter.java` file.
 
 #### Preloaded data
 
@@ -117,7 +117,7 @@ With the help of the Spring Boot Actuator you can shutdown the web application i
 
 For example: `curl -X POST http://localhost:11001/actuator/shutdown`. 
 
-Note that to have this url working I had to make a slight modification in the `src/main/java/hu/learnerbot/hellospring/config/CustomWebSecurityConfigurerAdapter.java` file.
+Note that to have this url working I had to make a slight modification in the `src/main/java/com/peterabyte/hellospring/config/CustomWebSecurityConfigurerAdapter.java` file.
 
 ### Pitfalls
 
