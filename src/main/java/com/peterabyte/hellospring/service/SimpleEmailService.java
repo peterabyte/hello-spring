@@ -11,7 +11,7 @@ public class SimpleEmailService {
 
     private final JavaMailSender emailSender;
 
-    @Value("${learnerbot.mail.from:hellospring@example.com}")
+    @Value("${hellospring.mail.from:hellospring@example.com}")
     private String from;
 
     @Autowired
