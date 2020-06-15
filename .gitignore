@@ -7,4 +7,5 @@ gradlew
 gradlew.bat
 *.iml
 src/main/resources/application.properties
-src/test/resources/common.properties
+src/main/resources/application-*.properties
+src/test/resources/local.properties

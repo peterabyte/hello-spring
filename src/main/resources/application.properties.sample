@@ -1,9 +1,10 @@
 management.endpoint.shutdown.enabled=true
 management.endpoints.web.exposure.include=info,health,status,mappings,shutdown
 
-spring.h2.console.enabled=true
+spring.devtools.restart.enabled=false
+spring.devtools.livereload.enabled=false
 
-learnerbot.contact.link=https://github.com/learnerbot/hello-spring
+spring.h2.console.enabled=true
 
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
