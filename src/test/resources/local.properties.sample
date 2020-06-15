@@ -1,0 +1,4 @@
+hellospring.url=http://localhost:11001
+hellospring.user.name:user@example.com
+hellospring.user.password:123456
+hellospring.chrome.driver=/path/to/chrome/driver

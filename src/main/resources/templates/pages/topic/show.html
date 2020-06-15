@@ -7,7 +7,7 @@
 <div th:replace="fragments/header :: header"></div>
 <h1 th:text="${topic.name}"></h1>
 <p class="card-body" th:text="${topic.description}"></p>
-<div th:each="comment : ${comments}" class="card">
+<div th:each="comment : ${comments}" class="card comment-card">
     <div class="card-header">
         <span class="fas fa-comment"></span>
         <span th:text="${comment.user.name}"></span>

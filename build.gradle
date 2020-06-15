@@ -12,7 +12,6 @@ targetCompatibility = 1.8
 def junitVersion = '4.11'
 def mockitoVersion = '1.9.5'
 def assertjVersion = '2.0.0'
-def log4jVersion = '2.5'
 def springBootVersion = '2.0.1.RELEASE'
 def h2Version = '1.4.197'
 def thymeleafSpringSecurityVersion = '3.0.2.RELEASE'
@@ -43,7 +42,6 @@ dependencies {
     testImplementation("junit:junit:$junitVersion")
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
     testImplementation("org.assertj:assertj-core:$assertjVersion")
-    testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumVersion")
     testImplementation("io.cucumber:cucumber-junit:$cucumberVersion")
     testImplementation("io.cucumber:cucumber-java:$cucumberVersion")
@@ -82,10 +80,8 @@ test {
 }
 
 task uiTest(type: Test) {
-    reports {
-        html.enabled = true
-        junitXml.enabled = true
-    }
+    description = 'Runs UI tests.'
+    group = 'verification'
 
     testLogging {
         events "PASSED", "STARTED", "FAILED", "SKIPPED"

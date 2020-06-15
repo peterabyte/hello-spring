@@ -1,6 +1,9 @@
 management.endpoint.shutdown.enabled=true
 management.endpoints.web.exposure.include=info,health,status,mappings,shutdown
 
+spring.devtools.restart.enabled=false
+spring.devtools.livereload.enabled=false
+
 spring.h2.console.enabled=true
 
 spring.mail.host=smtp.gmail.com

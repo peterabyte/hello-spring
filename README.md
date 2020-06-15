@@ -42,12 +42,6 @@ This is a simple web application based on *Spring Boot*. It showcases features s
 
 * *[Chrome Driver](https://sites.google.com/a/chromium.org/chromedriver/getting-started)*: ChromeDriver is a separate executable that WebDriver uses to control Chrome.
 
-*[Firefox](https://www.mozilla.org/en-US/firefox/new/)*: Browser.
-
-* *[Older Version of Firefox](https://support.mozilla.org/en-US/kb/install-older-version-of-firefox)*: Selenium support for Firefox is the latest release, the previous release, the latest ESR release and the previous ESR release. For example Selenium 2.40.0 (released on Feb 19, 2014) supports Firefox 27, 26, 24, 17
-
-* *[Gecko Driver](https://github.com/mozilla/geckodriver/releases)*: Proxy for using W3C WebDriver-compatible clients to interact with Gecko-based browsers.
-
 *[Cucumber](https://cucumber.io/), [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin)*: Cucumber is a tool that supports Behaviour-Driven Development (BDD) - a software development process that aims to enhance software quality and reduce maintenance costs. Gherkin is the language that Cucumber understands. It is a Business Readable, Domain Specific Language that lets you describe software’s behaviour without detailing how that behaviour is implemented.
 
 ## How to
@@ -60,25 +54,33 @@ The following software should be installed on your computer.
 
 * gradle
 
-* Firefox and Gecko Driver
-
 * Chrome and Chrome Driver
 
 To be able to start the application you need to setup your own `src/main/resources/application.properties` file based on the `src/main/resources/application.properties.sample` file.
 
-To be able to start the smoke test you need to setup your own `src/test/resources/common.properties` file based on the `src/test/resources/common.properties.sample` file. Make sure that you specify the paths to the selenium drivers.
+To be able to start the smoke test you need to setup your own `src/test/resources/local.properties` file based on the `src/test/resources/local.properties.sample` file. Make sure that you specify the paths to the selenium chrome driver.
 
-* `learnerbot.test.selenium.gecko.driver`: The path to the WebDriver binary for the Firefox browser (containing the name of the binary itself).
-    
-* `learnerbot.test.selenium.chrome.driver`: The path to the WebDriver binary for the Chrome browser (containing the name of the binary itself).
-
-### Start and Test
+### Running the application
 
 To run the web application in place without building a jar first you can use the command `gradle --daemon bootRun`. This will start the web application with the specified *port* and *debug port* located in the *build.gradle* file.
 
 If you made some changes to the HTML or CSS files then you don't need to restart the application. If you make some changes to the Java code then simply building the project with `gradle build` while the application is still running won't automatically restart it with the changes. This *Spring Boot DevTools* feature is disabled in *gradle.build*. So if you make some changes in the Java Source code then you need to shut down and start the application manually.
 
-To run the Selenium tests just run the command `gradle --daemon smokeTest`. The default browser used for testing is Firefox. If you would like to switch to Chrome then execute the command `gradle --daemon smokeTest -Plearnerbot.test.browser=chrome`.
+### Testing
+
+To run the Selenium tests just run the command `gradle --daemon smokeTest`. The browser used for testing is Chrome. The test itself will not start the application, it should be started before.
+
+Properties for testing:
+
+* `hellospring.url`: The url of the running application against which the UI tests will be executed.
+
+* `hellospring.user.name`: The name of the user which will be used in UI tests for authentication.
+
+* `hellospring.user.password`:  The password of the user which will be used in UI tests for authentication.
+
+* `hellospring.chrome.driver`: The path to the WebDriver binary for the Chrome browser (containing the name of the binary itself).
+
+* `hellospring.test.env`: The test env which can be used to easily switch between properties. Default is `local` thus by default the UI tests will use `local.properties`.
 
 ### H2 Database
 
@@ -119,10 +121,8 @@ Note that to have this url working I had to make a slight modification in the `s
 
 ### Pitfalls
 
-#### Firefox loads but does not visit the specified URL
-
-This might be because the current installed version of Firefox is not supported by Selenium. Take special care to select the right Firefox version.
-
 #### Chrome does not load
 
 This might be because the path to the driver is not set properly.
+
+Chrome driver might not support the version of Chrome. In newer versions the Chrome driver version should match the version of Chrome.

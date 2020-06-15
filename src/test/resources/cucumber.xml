@@ -9,7 +9,7 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="hu.learnerbot.hellospring.test"/>
+    <context:component-scan base-package="com.peterabyte.hellospring.test"/>
 
     <context:property-placeholder/>
     
